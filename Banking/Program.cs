@@ -8,9 +8,9 @@ namespace Banking
     {
         static void Main(string[] args)
         {
-            BankAccount account = new BankAccount("123-4567890-12");
-            Console.WriteLine($"Accountnumber: {account.AccountNumber}");
-            Console.WriteLine($"Balance: {account.Balance}");
+            IBankAccount account = new BankAccount("123-4567890-12");
+            Console.WriteLine($"Accountnumber - Balance: {account.ToString()}");
+            //Console.WriteLine($"Balance: {account.Balance}");
             account.Deposit(200M);
             Console.WriteLine($"Balance after deposit of 200€: {account.Balance}");
             account.Withdraw(100M);
@@ -24,7 +24,7 @@ namespace Banking
             saving.Deposit(200M);
             saving.Withdraw(100M);
             saving.AddInterest();
-            Console.WriteLine($"Balance savingsaccount: {saving.Balance}");
+            Console.WriteLine($"Balance savingsaccount: {saving.ToString()}");
             Console.ReadKey();
         }
     }
