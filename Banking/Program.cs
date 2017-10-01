@@ -20,6 +20,11 @@ namespace Banking
             {
                 Console.WriteLine($"Transactions: {t.DateOfTrans.ToShortDateString()} - {t.Amount}");
             }
+            SavingsAccount saving = new SavingsAccount("123-456789-03", 0.01M);
+            saving.Deposit(200M);
+            saving.Withdraw(100M);
+            saving.AddInterest();
+            Console.WriteLine($"Balance savingsaccount: {saving.Balance}");
             Console.ReadKey();
         }
     }
