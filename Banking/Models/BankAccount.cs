@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Banking.Models
 {
-    public class BankAccount 
+    public class BankAccount
     {
         #region Fields
 
         private string _accountNumber;
         //private decimal _balance;
-       
+        private IList<Transaction> _transactions;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace Banking.Models
             private set { _accountNumber = value; }
         }
 
-        
+        public int NumberOfTransactions { get { return _transactions.Count; } }
         #endregion
 
 
@@ -34,7 +34,7 @@ namespace Banking.Models
         {
             AccountNumber = account;
             Balance = Decimal.Zero;
-            
+            _transactions = new List<Transaction>();
         }
         #endregion
 
@@ -42,16 +42,28 @@ namespace Banking.Models
         public void Deposit(decimal amount)
         {
             Balance += amount;
-            
+            _transactions.Add(new Transaction(amount, TransactionType.Deposit));
         }
 
-        public void Withdraw(decimal amount)
+        public virtual void Withdraw(decimal amount)
         {
             Balance -= amount;
-            
+            _transactions.Add(new Transaction(amount, TransactionType.Withdraw));
         }
 
-       
+        public IEnumerable<Transaction> GetTransactions(DateTime? from, DateTime? till)
+        {
+            if (from == null) from = DateTime.MinValue;
+            if (!till.HasValue) till = DateTime.MaxValue;
+            IList<Transaction> transList = new List<Transaction>();
+            foreach(Transaction t in _transactions)
+            {
+                if (t.DateOfTrans >= from && t.DateOfTrans <= till) transList.Add(t);
+            }
+            return transList;
+        }
+
+        
         #endregion
 
     }

@@ -1,5 +1,6 @@
 ﻿using Banking.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Banking
 {
@@ -14,7 +15,11 @@ namespace Banking
             Console.WriteLine($"Balance after deposit of 200€: {account.Balance}");
             account.Withdraw(100M);
             Console.WriteLine($"Balance after withdraw of 100€: {account.Balance}");
-            
+            IEnumerable<Transaction> transactions = account.GetTransactions(null, null);
+            foreach (Transaction t in transactions)
+            {
+                Console.WriteLine($"Transactions: {t.DateOfTrans.ToShortDateString()} - {t.Amount}");
+            }
             Console.ReadKey();
         }
     }
