@@ -6,8 +6,15 @@ namespace Banking.Models
 {
     public class Transaction
     {
+        private decimal _amount;
         #region Properties
-        public decimal Amount { get; private set; }
+        public decimal Amount {
+            get { return _amount; }
+            private set {
+                if (value < 0) throw new ArgumentException("Amount can not be negative");
+                _amount = value;
+            }
+        }
         public TransactionType TransactionType { get; private set; }
         public DateTime DateOfTrans { get; private set; }
         #endregion
