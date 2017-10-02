@@ -17,7 +17,7 @@ namespace Banking.Models
 
         public override void Withdraw(decimal amount)
         {
-            if (amount + WithdrawCost > Balance) throw new InvalidOperationException("Balance cannot becom negative");
+            if (amount + WithdrawCost > Balance) throw new InvalidOperationException("Balance cannot be negative");
             base.Withdraw(amount);
             base.Withdraw(WithdrawCost);
         }

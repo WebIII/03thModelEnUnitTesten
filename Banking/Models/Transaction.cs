@@ -11,9 +11,8 @@ namespace Banking.Models
         public decimal Amount {
             get { return _amount; }
             private set {
-                if (value < 0) throw new ArgumentException("Amount can not be negative");
-                _amount = value;
-            }
+                if (value <0) throw new ArgumentException("Amount cannot be negative");
+                _amount = value; }
         }
         public TransactionType TransactionType { get; private set; }
         public DateTime DateOfTrans { get; private set; }
