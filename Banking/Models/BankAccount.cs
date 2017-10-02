@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Banking.Models
 {
@@ -22,7 +23,21 @@ namespace Banking.Models
         public string AccountNumber
         {
             get { return _accountNumber; }
-            private set { _accountNumber = value; }
+            private set {
+                if (value == string.Empty)
+                    throw new ArgumentException("Accountnumber must have a value");
+                if (value == null)
+                    throw new ArgumentNullException();
+                Regex regex = new Regex(@"(\d{3})-(\d{7})-(\d{2})");
+                Match match = regex.Match(value);
+                if (!match.Success)
+                    throw new ArgumentException("Bankaccount number format is not correct");
+                if (int.Parse(match.Groups[1] + match.Groups[2].ToString()) % 97 !=
+                    int.Parse(match.Groups[3].ToString()))
+                    throw new ArgumentException("97 test of the bankaccount number failed");
+
+                _accountNumber = value;
+            }
         }
 
         public int NumberOfTransactions { get { return _transactions.Count; } }
@@ -41,12 +56,16 @@ namespace Banking.Models
         #region Methods
         public void Deposit(decimal amount)
         {
+            if (amount < 0)
+                throw new ArgumentException("Amount cannot be negative");
             Balance += amount;
             _transactions.Add(new Transaction(amount, TransactionType.Deposit));
         }
 
         public virtual void Withdraw(decimal amount)
         {
+            if (amount < 0)
+                throw new ArgumentException("Amount cannot be negative");
             Balance -= amount;
             _transactions.Add(new Transaction(amount, TransactionType.Withdraw));
         }
